@@ -3,11 +3,11 @@ package core;
 import dto.Coordinate;
 import dto.ResponseDto;
 
-public class ClientField {
+public class Field {
 
     String[][] field = new String[30][30];
 
-    public ClientField() {
+    public Field() {
         for (int x = 0; x < 30; x++)
             for (int y = 0; y < 30; y++)
                 field[x][y] = "_";

@@ -20,7 +20,6 @@ public class TCPClient {
             os.write(json.getBytes());
             os.flush();
         } catch (Exception e) {
-            e.printStackTrace();
             System.out.println("메시지 전송 에러");
         }
     }
@@ -30,7 +29,6 @@ public class TCPClient {
             String jsonResponse =  new DataInputStream(socket.getInputStream()).readUTF();
             return objectMapper.readValue(jsonResponse, ResponseDto.class);
         } catch (Exception e) {
-            e.printStackTrace();
             System.out.println("메시지 수신 에러");
             return null;
         }
