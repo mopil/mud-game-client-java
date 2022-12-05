@@ -1,8 +1,8 @@
 package core;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import dto.RequestDto;
-import dto.ResponseDto;
+import dto.Request;
+import dto.Response;
+import util.JsonConverter;
 
 import java.io.DataInputStream;
 import java.io.OutputStream;
@@ -10,13 +10,13 @@ import java.net.Socket;
 
 public class TCPClient {
 
-    private Socket socket;
-    private ObjectMapper objectMapper = new ObjectMapper();
+    public Socket socket;
+    private final JsonConverter jsonConverter = JsonConverter.getInstance();
 
-    public void send(RequestDto requestDto) {
+    public void sendRequest(Request request) {
         try {
             OutputStream os = socket.getOutputStream();
-            String json = objectMapper.writeValueAsString(requestDto);
+            String json = jsonConverter.toJson(request);
             os.write(json.getBytes());
             os.flush();
         } catch (Exception e) {
@@ -24,19 +24,19 @@ public class TCPClient {
         }
     }
 
-    public ResponseDto receive() {
+    public Response receiveResponse() {
         try {
             String jsonResponse =  new DataInputStream(socket.getInputStream()).readUTF();
-            return objectMapper.readValue(jsonResponse, ResponseDto.class);
+            return jsonConverter.toObject(jsonResponse, Response.class);
         } catch (Exception e) {
             System.out.println("메시지 수신 에러");
             return null;
         }
     }
 
-    public ResponseDto request(RequestDto requestDto) {
-        send(requestDto);
-        ResponseDto response = receive();
+    public Response request(Request request) {
+        sendRequest(request);
+        Response response = receiveResponse();
         if (response == null) {
             System.out.println("서버 통신 실패, response == null");
         }

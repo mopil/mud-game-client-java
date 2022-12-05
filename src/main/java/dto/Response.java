@@ -1,8 +1,11 @@
 package dto;
 
+import lombok.Data;
+
 import java.util.List;
 
-public class ResponseDto {
+@Data
+public class Response {
     public String message;
     public List<Coordinate> coords;
 }

@@ -1,30 +1,31 @@
 package core;
 
 import dto.Coordinate;
-import dto.ResponseDto;
+import dto.Response;
 
 public class Field {
+    private static final int FIELD_SIZE = 30;
 
-    String[][] field = new String[30][30];
+    private final String[][] field = new String[FIELD_SIZE][FIELD_SIZE];
 
     public Field() {
-        for (int x = 0; x < 30; x++)
-            for (int y = 0; y < 30; y++)
+        for (int x = 0; x < FIELD_SIZE; x++)
+            for (int y = 0; y < FIELD_SIZE; y++)
                 field[x][y] = "_";
     }
 
     public void show() {
-        for (int x = 0; x < 30; x++) {
-            for (int y = 0; y < 30; y++) {
+        for (int x = 0; x < FIELD_SIZE; x++) {
+            for (int y = 0; y < FIELD_SIZE; y++) {
                 System.out.printf("%s\t", field[x][y]);
             }
             System.out.println();
         }
     }
 
-    public void update(ResponseDto responseDto) {
-        for (Coordinate coord : responseDto.coords) {
-            field[coord.x][coord.y] = coord.who;
+    public void update(Response response) {
+        for (Coordinate coordinate : response.coords) {
+            field[coordinate.x][coordinate.y] = coordinate.who;
         }
     }
 }
