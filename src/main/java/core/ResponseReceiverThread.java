@@ -19,7 +19,10 @@ public class ResponseReceiverThread extends Thread {
             }
             if (response.message != null)
                 System.out.println(response.message);
-            else field.show();
+            else {
+                field.update(response);
+                field.show();
+            }
             System.out.print(username + " >>> ");
         }
     }
