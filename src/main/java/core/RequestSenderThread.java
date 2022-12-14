@@ -30,6 +30,10 @@ public class RequestSenderThread extends Thread {
             }
             Request request = new Request("cmd", cmd);
             tcpClient.sendRequest(request);
+            if (cmd.equals("logout")) {
+                System.out.println("게임을 종료합니다. 5분내로 동일한 닉네임으로 로그인시 게임을 이어갈 수 있습니다.");
+                System.exit(0);
+            }
         }
     }
 
@@ -48,7 +52,9 @@ public class RequestSenderThread extends Thread {
 
     public static void activeBotMode(TCPClient tcpClient) {
         System.out.println("BOT 모드를 실행합니다. 1초마다 랜덤 명령어를 수행합니다.");
-        String[] commandList = {"users", "monsters", "attack"};
+        Random random = new Random();
+        String randMove = "move " + random.nextInt(0, 30) + " " + random.nextInt(0, 30);
+        String[] commandList = {"users", "monsters", "attack", "info", "item hp", "item str", randMove};
         while (true) {
             String randCmd = commandList[new Random().nextInt(commandList.length)];
             System.out.println("(To Server) " + randCmd);
